@@ -1,0 +1,22 @@
+CC = gcc
+CFLAGS = -Wall -Wextra -g
+
+all: rod_lru rod_fifo
+
+rod_lru: rod_cutting.o cache_lru.o
+	$(CC) $(CFLAGS) -o rod_lru rod_cutting.o cache_lru.o
+
+rod_fifo: rod_cutting.o cache_policyB.o
+	$(CC) $(CFLAGS) -o rod_fifo rod_cutting.o cache_policyB.o
+
+rod_cutting.o: rod_cutting.c cache.h
+	$(CC) $(CFLAGS) -c rod_cutting.c
+
+cache_lru.o: cache_lru.c cache.h
+	$(CC) $(CFLAGS) -c cache_lru.c
+
+cache_policyB.o: cache_policyB.c cache.h
+	$(CC) $(CFLAGS) -c cache_policyB.c
+
+clean:
+	rm -f *.o rod_lru rod_fifo
